@@ -1,9 +1,41 @@
+/* @import url("../styles/all.css"); */
+
+@font-face {
+  font-family: "netflixBold";
+  src: url("../assets/NetflixSansBold.woff");
+}
+@font-face {
+  font-family: "netflixIcon";
+  src: url("../assets/NetflixSansIcon.woff");
+}
+@font-face {
+  font-family: "netflixBlack";
+  src: url("../assets/NetflixSansBlack.woff");
+}
+@font-face {
+  font-family: "netflixLight";
+  src: url("../assets/NetflixSansLight.woff");
+}
+@font-face {
+  font-family: "netflixMedium";
+  src: url("../assets/NetflixSansMedium.woff");
+}
+@font-face {
+  font-family: "netflixRegular";
+  src: url("../assets/NetflixSansRegular.woff");
+}
+@font-face {
+  font-family: "netflixThin";
+  src: url("../assets/NetflixSansThin.woff");
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: netflixLight, sans-serif;
+  background: black;
+  line-height: 1.2;
 }
 
 a {
@@ -11,6 +43,14 @@ a {
   text-decoration: none;
 }
 
+ul,
+li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
 * {
   box-sizing: border-box;
+  font-family: netflixLight, sans-serif;
 }
