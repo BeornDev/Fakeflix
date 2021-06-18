@@ -25,7 +25,13 @@ export default function CarouselHorizontal() {
           if (i < 6) {
             // TODO: pendiente funcionalidad del hover
             return (
-              <li className={classes.movieItem} key={m.title}>
+              <li
+                onClick={() => {
+                  console.log(m.title);
+                }}
+                className={classes.movieItem}
+                key={m.title}
+              >
                 <div className={classes.numberOnList}>
                   <div>{i + 1}</div>
                 </div>
