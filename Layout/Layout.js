@@ -19,7 +19,7 @@ export default function Layout(props) {
         mountOnEnter
         unmountOnExit
         in={show}
-        timeout={1000}
+        timeout={500}
         classNames="showModal"
       >
         <SearchModal onClose={() => setShow(false)} title={"Top Searches"} />

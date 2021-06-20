@@ -12,7 +12,6 @@ const MainViewDiv = styled.div`
   position: relative;
 
   .coverImage {
-    outline: solid yellow 3px;
     position: absolute;
     top: -10%;
     left: 50%;
@@ -36,7 +35,17 @@ const MainViewDiv = styled.div`
     justify-content: space-between;
     gap: 10px;
     height: 70px;
-    /* width: 80%; */
+  }
+
+  @media (min-width: 320px) {
+  }
+  @media (min-width: 480px) {
+  }
+  @media (min-width: 768px) {
+  }
+  @media (min-width: 992px) {
+  }
+  @media (min-width: 1200px) {
   }
 `;
 
