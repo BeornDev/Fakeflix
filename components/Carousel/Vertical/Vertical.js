@@ -1,40 +1,56 @@
-import React, { useState, useEffect } from "react";
-import classes from "./Vertical.module.css";
-import axios from "axios";
+import useHttpRquest from "../../hooks/useHttpRquest";
+import styled from "styled-components";
+
+const VerticalCarouselDiv = styled.div`
+  color: #fff;
+  margin-bottom: 10px;
+  /* height: 30vh; */
+  /* margin: 20px; */
+
+  .titleVertical {
+    word-spacing: 2px;
+    font-size: 1rem;
+    margin: 8px 0;
+    /* height: 3vh; */
+  }
+  .carouselVertical {
+    width: 100%;
+    height: 90%;
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+  }
+  .cvItem {
+    height: 25vh;
+    overflow: hidden;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .cvItemImg {
+    height: 120%;
+  }
+`;
 
 export default function CarouselVertical(props) {
-  const [topRated, setTopRated] = useState([]);
-  useEffect(() => {
-    axios
-      .get(
-        "https://api.themoviedb.org/3/movie/top_rated?api_key=a737035cefb22acd96f01ffdcf8f4f7b"
-      )
-      .then((res) => {
-        setTopRated(res.data.results.slice(0, 6));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
+  const [topRated, genre] = useHttpRquest(props.name);
+  // TODO: pendiente funcionalidad del hover
   return (
-    <div className={classes.containerCarousel}>
-      <h2>Top Rated Movies</h2>
-      <div className={classes.slider}>
-        {topRated.map((m, i) => (
-          // TODO: pendiente funcionalidad del hover
-          <li className={classes.movieItem} key={m.title}>
+    <VerticalCarouselDiv>
+      <h2 className="titleVertical">{props.title}</h2>
+      <ul className="carouselVertical">
+        {topRated.slice(0, 3).map((m) => (
+          <li className="cvItem" key={m.id}>
             <img
-              className={classes.cover}
+              className="cvItemImg"
               src={`https://image.tmdb.org/t/p/w300${m.poster_path}`}
             />
-            <div className={classes.containerDetail}>
-              <h3>{m.title}</h3>
-              <p>{m.popularity}</p>
-            </div>
           </li>
         ))}
-      </div>
-    </div>
+      </ul>
+    </VerticalCarouselDiv>
   );
 }
