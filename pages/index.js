@@ -14,7 +14,7 @@ export default function Home() {
       <MainView />
       {/* <Numbered /> */}
       <Vertical name="top_rated" title="Top Rated Movies" />
-      {/* <Vertical name="now_playing" title="Now Playing Movies" /> */}
+      <Vertical name="now_playing" title="Now Playing Movies" />
       {/* <Vertical name="upcoming" title="Upcoming Movies" /> */}
       {/* <Horizontal /> */}
     </div>

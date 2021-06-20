@@ -25,7 +25,6 @@ const linksFooter = [
 ];
 
 const FooterDiv = styled.div`
-  height: 10vh;
   color: grey;
 
   .socials {
