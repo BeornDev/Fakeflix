@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Header from "../components/Header/Header";
+import HeaderFixed from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import SearchModal from "./SearchModal";
 import { CSSTransition } from "react-transition-group";
@@ -14,7 +14,7 @@ export default function Layout(props) {
   const [show, setShow] = useState(false);
   return (
     <LayoutDiv>
-      <Header onClick={() => setShow(true)} />
+      <HeaderFixed />
       <CSSTransition
         mountOnEnter
         unmountOnExit
@@ -25,7 +25,7 @@ export default function Layout(props) {
         <SearchModal onClose={() => setShow(false)} title={"Top Searches"} />
       </CSSTransition>
       {props.children}
-      <Footer />
+      {/* <Footer /> */}
     </LayoutDiv>
   );
 }
