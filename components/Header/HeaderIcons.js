@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
+
+import MoviesContext from "../../store/movies-context";
 
 import styled from "styled-components";
 
@@ -15,7 +17,7 @@ const HeaderIconsDiv = styled.div`
   /* transition: 1s all; */
   padding: 0 5px;
 
-  .header-icons__container-avatar {
+  .container-avatar {
     height: 80%;
   }
   .search-icon,
@@ -25,6 +27,7 @@ const HeaderIconsDiv = styled.div`
   }
   .avatar-icon {
     height: 100%;
+    border-radius: 5px;
   }
   .notification-icon {
     display: none;
@@ -37,12 +40,13 @@ const HeaderIconsDiv = styled.div`
 `;
 
 export default function HeaderIcons() {
+  const moviesCtx = useContext(MoviesContext);
   //TODO: Pendient funcionalidad de los botones
   return (
     <HeaderIconsDiv>
       <SearchIcon
         className="search-icon"
-        onClick={() => console.log("search")}
+        onClick={() => moviesCtx.toggleSearch()}
         style={{ fontSize: 30 }}
       />
       <NotificationsIcon
@@ -50,7 +54,7 @@ export default function HeaderIcons() {
         className="notification-icon"
         style={{ fontSize: 30 }}
       />
-      <div className="header-icons__container-avatar">
+      <div className="container-avatar">
         <img
           onClick={() => console.log("avatar")}
           className="avatar-icon"

@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useEffect, useState, useContext } from "react";
+import MoviesContext from "../../store/movies-context";
 
 //Components
 import HeaderArrow from "./HeaderArrow";
@@ -8,15 +9,6 @@ import HeaderLinks from "./HeaderLinks";
 
 import { CSSTransition } from "react-transition-group";
 import styled from "styled-components";
-
-//DUMMY data links
-const DUMMY_LINKS = [
-  { name: "Home", route: "/", class: "home" },
-  { name: "TV Shows", route: "/tvshows", class: "tvshows" },
-  { name: "Movies", route: "/movies", class: "movies" },
-  { name: "New & Popular", route: "/NewPopular", class: "newpopular" },
-  { name: "My List", route: "/MyList", class: "mylist" },
-];
 
 // Styled Components
 const HeaderDiv = styled.div`
@@ -48,14 +40,18 @@ const HeaderDiv = styled.div`
 
     &.scrolled {
       transform: translateY(0);
-      background-color: rgba(0, 0, 0, 0.7);
     }
+  }
+
+  @media (min-width: 992px) {
   }
 `;
 
 export default function Header(props) {
-  const [scroll, setScroll] = useState(false); //scroll change
+  const moviesCtx = useContext(MoviesContext);
   const [showSearch, setshowSearch] = useState(false);
+
+  console.log("Header");
 
   const router = useRouter();
   const { pathname } = router;
@@ -63,8 +59,8 @@ export default function Header(props) {
   useEffect(() => {
     const chageColor = () => {
       if (window.scrollY <= 80) {
-        setScroll(false);
-      } else setScroll(true);
+        moviesCtx.toggleScrolling(false);
+      } else moviesCtx.toggleScrolling(true);
     };
     window.addEventListener("scroll", chageColor);
   }, [pathname]);
@@ -77,11 +73,11 @@ export default function Header(props) {
     console.log(showSearch);
   };
 
-  const routeExactPage = DUMMY_LINKS.find((l) => l.route === pathname).name;
+  const routeExactPage = moviesCtx.links.find((l) => l.route === pathname).name;
 
   //TODO: Miss 'active' functionality
   return (
-    <HeaderDiv className={scroll && "scrolled"}>
+    <HeaderDiv className={moviesCtx.scrolling && "scrolled"}>
       <HeaderArrow pathname={pathname} routeExactPage={routeExactPage} />
       <HeaderLinks pathname={pathname} routeExactPage={routeExactPage} />
       <HeaderIcons />

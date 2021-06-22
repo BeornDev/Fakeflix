@@ -1,4 +1,5 @@
 import React from "react";
+
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import Link from "next/link";
 import styled from "styled-components";
@@ -7,6 +8,7 @@ const HeaderArrowDiv = styled.div`
   grid-area: A;
   background: url("https://i.ibb.co/cy5Nv1p/F-netflix.png") center/contain
     no-repeat;
+  background-size: 20px 30px;
 
   &.alter {
     display: flex;

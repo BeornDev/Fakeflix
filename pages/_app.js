@@ -1,11 +1,14 @@
 import "../styles/globals.css";
 import Layout from "../Layout/Layout";
+import MoviesProvider from "../store/MoviesProvider";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <MoviesProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </MoviesProvider>
   );
 }
 
