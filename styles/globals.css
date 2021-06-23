@@ -68,15 +68,18 @@ li {
 @media (min-width: 768px) {
   body {
     background: purple;
+    /* 4 */
   }
 }
 @media (min-width: 992px) {
   body {
     background: pink;
+    /* 5 */
   }
 }
 @media (min-width: 1200px) {
   body {
     background: orange;
+    /* 6 */
   }
 }

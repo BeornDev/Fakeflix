@@ -47,36 +47,38 @@ const SearchListDiv = styled.div`
 `;
 //TODO: problema con la renderizada de muchos elementos.
 export default function SearchList(props) {
+  //TODO: Problema se muestr el fondo.
   return (
-    <SearchListDiv>
-      {props.similarMovies.length > 0 ? (
-        props.similarMovies.map((m) => (
-          <li
-            onClick={() => console.log(m.id)}
-            className="listSearch_item"
-            key={m.id}
-          >
-            <img
-              className="listSearch_item__img"
-              src={`https://image.tmdb.org/t/p/w300${m.backdrop_path}`}
-            />{" "}
-            <p className="listSearch_item__title">{m.title}</p>
-            <div className="listSearch_item__icon">
-              <div className="listSearch_item__icon__border">
-                <PlayArrowIcon />
+    <div style={{ scrollBehavior: "smooth", overflow: "scroll" }}>
+      <SearchListDiv>
+        {props.similarMovies.length > 0 ? (
+          props.similarMovies.map((m) => (
+            <li
+              onClick={() => console.log(m.id)}
+              className="listSearch_item"
+              key={m.id}
+            >
+              <img
+                className="listSearch_item__img"
+                src={`https://image.tmdb.org/t/p/w300${m.backdrop_path}`}
+              />{" "}
+              <p className="listSearch_item__title">{m.title}</p>
+              <div className="listSearch_item__icon">
+                <div className="listSearch_item__icon__border">
+                  <PlayArrowIcon />
+                </div>
               </div>
-            </div>
-          </li>
-        ))
-      ) : (
-        <div className="alertSearch">
-          <p className="alert-title">Oh darn. We don't have that.</p>
-          <p className="alert-content">
-            Try searching for another movie by id...LOL - try.. 337404, 277217
-            or 11231 for example
-          </p>
-        </div>
-      )}
-    </SearchListDiv>
+            </li>
+          ))
+        ) : (
+          <div className="alertSearch">
+            <p className="alert-title">Oh darn. We don't have that.</p>
+            <p className="alert-content">
+              Try searching for another movie, show, actor, director, or genre.
+            </p>
+          </div>
+        )}
+      </SearchListDiv>
+    </div>
   );
 }

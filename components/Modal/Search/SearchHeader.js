@@ -95,7 +95,7 @@ export default function SearchHeader(props) {
         <div className="iconSearch">
           <SearchIcon />
         </div>
-        <input type="number" onChange={changeSearchInput} ref={searchRef} />
+        <input onChange={changeSearchInput} ref={searchRef} />
         <div className="iconMic">
           <MicIcon />
         </div>

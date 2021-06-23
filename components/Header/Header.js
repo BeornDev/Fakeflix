@@ -52,17 +52,22 @@ export default function Header(props) {
   const [showSearch, setshowSearch] = useState(false);
 
   console.log("Header");
-
   const router = useRouter();
   const { pathname } = router;
 
   useEffect(() => {
+    moviesCtx.toggleWindowSize(window.innerWidth);
+    console.log(window.innerWidth);
     const chageColor = () => {
       if (window.scrollY <= 80) {
         moviesCtx.toggleScrolling(false);
       } else moviesCtx.toggleScrolling(true);
     };
+    const changeWidth = () => {
+      moviesCtx.toggleWindowSize(window.innerWidth);
+    };
     window.addEventListener("scroll", chageColor);
+    window.addEventListener("resize", changeWidth);
   }, [pathname]);
 
   const searchingMb = () => {

@@ -6,8 +6,10 @@ const MoviesContext = React.createContext({
   toggleSearch: () => {},
   scrolling: "",
   toggleScrolling: () => {},
-  genresArray: [],
-  settingGenres: () => {},
+  isLoading: "",
+  settingLoadState: () => {},
+  windowWWith: "",
+  toggleWindowSize: () => {},
 });
 
 export default MoviesContext;

@@ -5,14 +5,11 @@ import MoviesContext from "./movies-context";
 export default function MoviesProvider(props) {
   const [showSearch, setShowSearch] = useState(false);
   const [scrolling, setScrolling] = useState(false);
-  const [genres, setGenres] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(375);
   const toggleSearcHandler = () => {
     setShowSearch((prevState) => !prevState);
   };
-  const toggleScrollHandler = (value) => {
-    setScrolling(value);
-  };
-
   const moviesContext = {
     links: [
       { name: "Home", route: "/", class: "home" },
@@ -24,11 +21,11 @@ export default function MoviesProvider(props) {
     showSearch: showSearch,
     toggleSearch: toggleSearcHandler,
     scrolling: scrolling,
-    toggleScrolling: toggleScrollHandler,
-    genresArray: genres,
-    settingGenres: (array) => {
-      setGenres(array);
-    },
+    toggleScrolling: (value) => setScrolling(value),
+    isLoading,
+    settingLoadState: (value) => setIsLoading(value),
+    windowWidth,
+    toggleWindowSize: (value) => setWindowWidth(value),
   };
   return (
     <MoviesContext.Provider value={moviesContext}>

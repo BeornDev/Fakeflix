@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useHttpRqSimilar } from "../../hooks/useHttpRquest";
+import useHttpRequest, { useRqSearch } from "../../hooks/useHttpRquest";
 
 import styled from "styled-components";
 
@@ -7,9 +7,10 @@ import SearchHeader from "./SearchHeader";
 import SearchList from "./SearchList";
 
 const SearchModalDiv = styled.div`
-  position: absolute;
+  position: fixed;
   width: 100%;
-  z-index: 300;
+  height: 100vh;
+  z-index: 12;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -39,13 +40,16 @@ const SearchModalDiv = styled.div`
 `;
 
 export default function SearchModal(props) {
-  const [searchingMovie, setsearchingMovie] = useState(277217);
-  const similarMovies = useHttpRqSimilar(searchingMovie);
+  const [searchingMovie, setsearchingMovie] = useState("");
+  const similarMovies = useHttpRequest("movie", "top_rated");
+  const searchMedia = useRqSearch(searchingMovie);
+  const showedMediaOnModal =
+    searchingMovie.length == 0 ? similarMovies : searchMedia;
   return (
     <SearchModalDiv className={props.showModal && "hideModal"}>
       <SearchHeader onSearchHandler={(movie) => setsearchingMovie(movie)} />
       <div className="searchTitle">{props.title}</div>
-      <SearchList similarMovies={similarMovies} />
+      <SearchList similarMovies={showedMediaOnModal} />
     </SearchModalDiv>
   );
 }
