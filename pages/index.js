@@ -6,9 +6,7 @@ import { useGenres } from "../components/hooks/useHttpMedia";
 
 //Components
 import MainView from "../components/MainView/MainView";
-import Vertical from "../components/Carousel/Vertical/Vertical";
-import Horizontal from "../components/Carousel/Horizontal/Horizontal";
-import Numbered from "../components/Carousel/Numbered/Numbered";
+import Carousel from "../components/Carousel/Carousel";
 import React from "react";
 
 const Home = () => {
@@ -49,12 +47,12 @@ const Home = () => {
       </Head>
       <MainView seccionType="all" />
       {/* <Numbered /> */}
-      <Vertical
+      <Carousel
         mediaType="tv"
         listType="top_rated"
         title="Top Rated Tv Shows"
       />
-      <Vertical
+      <Carousel
         mediaType="movie"
         listType="top_rated"
         title="Top Rated Movies"

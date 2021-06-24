@@ -9,7 +9,7 @@ import Button from "../../Layout/Btn";
 import styled from "styled-components";
 
 const MainViewDiv = styled.div`
-  overflow: hidden;
+  /* overflow: hidden; */
   display: flex;
   align-items: flex-end;
   justify-content: center;

@@ -1,5 +1,5 @@
 import React from "react";
-import Vertical from "../../components/Carousel/Vertical/Vertical";
+import Carousel from "../../components/Carousel/Carousel";
 
 import MainView from "../../components/MainView/MainView";
 
@@ -7,10 +7,10 @@ export default function index() {
   return (
     <React.Fragment>
       <MainView seccionType="tv" />
-      <Vertical mediaType="tv" listType="on_the_air" title="On The Air" />
-      <Vertical mediaType="tv" listType="top_rated" title="Top Rated" />
-      <Vertical mediaType="tv" listType="popular" title="Popular" />
-      <Vertical mediaType="tv" listType="airing_today" title="Airing today" />
+      <Carousel mediaType="tv" listType="on_the_air" title="On The Air" />
+      <Carousel mediaType="tv" listType="top_rated" title="Top Rated" />
+      <Carousel mediaType="tv" listType="popular" title="Popular" />
+      <Carousel mediaType="tv" listType="airing_today" title="Airing today" />
     </React.Fragment>
   );
 }
