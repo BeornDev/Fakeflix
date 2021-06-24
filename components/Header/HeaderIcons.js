@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import MoviesContext from "../../store/movies-context";
+import MoviesContext from "../../store/media-context";
 
 import styled from "styled-components";
 

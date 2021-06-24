@@ -1,5 +1,5 @@
 import React, { useState, useContext, useCallback } from "react";
-import MoviesContext from "../store/movies-context";
+import MediaContext from "../store/media-context";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import SearchModal from "../components/Modal/Search/Search";
@@ -13,7 +13,7 @@ const LayoutDiv = styled.div`
 
 const Layout = (props) => {
   //TODO: verificar con callback y memo como ajustar para que no se renderice todo de nuevo cada q cambie un elemento del context
-  const { showSearch } = useContext(MoviesContext);
+  const { showSearch } = useContext(MediaContext);
   // console.log("Layout");
   return (
     <LayoutDiv>

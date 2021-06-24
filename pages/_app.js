@@ -1,14 +1,14 @@
 import "../styles/globals.css";
 import Layout from "../Layout/Layout";
-import MoviesProvider from "../store/MoviesProvider";
+import MediaProvider from "../store/MediaProvider";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <MoviesProvider>
+    <MediaProvider>
       <Layout>
         <Component {...pageProps} />
       </Layout>
-    </MoviesProvider>
+    </MediaProvider>
   );
 }
 

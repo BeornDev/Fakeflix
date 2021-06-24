@@ -1,7 +1,7 @@
 import useRqTrending from "../hooks/useRqTrending";
 
-import React, { useContext } from "react";
-import MoviesContext from "../../store/movies-context";
+import React, { useContext, useEffect } from "react";
+import MoviesContext from "../../store/media-context";
 
 import Loader from "../../Layout/Loader";
 import Button from "../../Layout/Btn";
@@ -15,11 +15,11 @@ const MainViewDiv = styled.div`
   justify-content: center;
   height: 80vh;
   position: relative;
-  /* background: url("https://images-na.ssl-images-amazon.com/images/I/71niXI3lxlL._AC_SY679_.jpg"); */
   background-size: cover;
   background-position: center;
   text-shadow: 1px 1px 2px rgb(0 0 0 / 80%);
   color: #fff;
+  margin-bottom: 2vw;
 
   .genres {
     position: relative;
@@ -48,12 +48,13 @@ const MainViewDiv = styled.div`
 
 export default function MainView(props) {
   const [mediaRq, genresRq] = useRqTrending(props.seccionType);
-  const { isLoading, windowWidth } = useContext(MoviesContext);
+  const { isLoading, renderItems, genresTv, genresMovie } =
+    useContext(MoviesContext);
 
   const pathCover =
-    windowWidth < 768
-      ? `https://image.tmdb.org/t/p/w500${mediaRq[0]?.poster_path}`
-      : `https://image.tmdb.org/t/p/w1280${mediaRq[0]?.backdrop_path}`;
+    renderItems > 3
+      ? `https://image.tmdb.org/t/p/w1280${mediaRq[0]?.backdrop_path}`
+      : `https://image.tmdb.org/t/p/w500${mediaRq[0]?.poster_path}`;
   const genresText = mediaRq[0]?.genre_ids
     .map((g) => genresRq.find((gRq) => gRq.id === g)?.name)
     .join(" - ");

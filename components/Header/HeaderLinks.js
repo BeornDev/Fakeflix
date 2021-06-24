@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import React, { useContext } from "react";
-import MoviesContext from "../../store/movies-context";
+import MoviesContext from "../../store/media-context";
 
 import HeaderBrowse from "./HeaderBrowse";
 

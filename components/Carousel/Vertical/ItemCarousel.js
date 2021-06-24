@@ -14,42 +14,58 @@ const ItemCarouselDiv = styled.li`
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
 
+  &:hover .image-item-carousel {
+    /* height: 130%; */
+  }
+
+  &:hover .carousel-btns {
+    display: flex;
+  }
   .image-item-carousel {
     border-radius: 10px;
-    position: relative;
+    position: absolute;
     height: 100%;
     width: 100%;
     transition: 0.5s all;
     background-position: center;
     background-size: cover;
     background-image: url("https://images-na.ssl-images-amazon.com/images/I/71OB1IywjLL._AC_SY679_.jpg");
-    z-index: 8;
+    z-index: 5;
+  }
+
+  .genres-item {
+    color: #fff;
+    position: relative;
+    z-index: 5;
+    background-color: rgba(0, 0, 0, 0.5);
   }
 
   .carousel-btns {
-    width: 100%;
-    height: 20%;
-    position: absolute;
-    z-index: 10;
-    bottom: 0;
-    right: 50%;
-    transform: translateX(50%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: black;
     display: none;
     pointer-events: none;
-  }
+    width: 100%;
+    /* height: 20%; */
 
+    position: relative;
+    z-index: 7;
+
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
   .carousel-btns > * {
+    font-size: 25px;
     border-radius: 50%;
     border: solid white 2px;
   }
 
   @media (min-width: 768px) {
+  }
+  @media (min-width: 992px) {
+  }
+  @media (min-width: 1200px) {
   }
 `;
 
@@ -69,6 +85,7 @@ export default function imageCarousel(props) {
         <AddIcon />
         <ExpandMoreIcon />
       </div>
+      <p className="genres-item">{props.genres}</p>
     </ItemCarouselDiv>
   );
 }

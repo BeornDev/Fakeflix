@@ -1,15 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import useRqTrending from "../components/hooks/useRqTrending";
 
-import MoviesContext from "./movies-context";
+import MoviesContext from "./media-context";
 
 export default function MoviesProvider(props) {
   const [showSearch, setShowSearch] = useState(false);
   const [scrolling, setScrolling] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(375);
-  const toggleSearcHandler = () => {
-    setShowSearch((prevState) => !prevState);
-  };
+  const [renderItems, setRenderItems] = useState();
+  const [genresMovie, setGenresMovie] = useState([]);
+  const [genresTv, setGenresTv] = useState([]);
+
   const moviesContext = {
     links: [
       { name: "Home", route: "/", class: "home" },
@@ -19,13 +20,17 @@ export default function MoviesProvider(props) {
       { name: "My List", route: "/MyList", class: "mylist" },
     ],
     showSearch: showSearch,
-    toggleSearch: toggleSearcHandler,
+    toggleSearch: () => setShowSearch((prevState) => !prevState),
     scrolling: scrolling,
     toggleScrolling: (value) => setScrolling(value),
     isLoading,
     settingLoadState: (value) => setIsLoading(value),
-    windowWidth,
-    toggleWindowSize: (value) => setWindowWidth(value),
+    renderItems,
+    setRenderItems: (value) => setRenderItems(value),
+    genresMovie,
+    settingGenresMovie: (value) => setGenresMovie(value),
+    genresTv,
+    settingGenresTv: (value) => setGenresTv(value),
   };
   return (
     <MoviesContext.Provider value={moviesContext}>

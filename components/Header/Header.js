@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState, useContext } from "react";
-import MoviesContext from "../../store/movies-context";
+import MoviesContext from "../../store/media-context";
 
 //Components
 import HeaderArrow from "./HeaderArrow";
@@ -54,21 +54,6 @@ export default function Header(props) {
   console.log("Header");
   const router = useRouter();
   const { pathname } = router;
-
-  useEffect(() => {
-    moviesCtx.toggleWindowSize(window.innerWidth);
-    console.log(window.innerWidth);
-    const chageColor = () => {
-      if (window.scrollY <= 80) {
-        moviesCtx.toggleScrolling(false);
-      } else moviesCtx.toggleScrolling(true);
-    };
-    const changeWidth = () => {
-      moviesCtx.toggleWindowSize(window.innerWidth);
-    };
-    window.addEventListener("scroll", chageColor);
-    window.addEventListener("resize", changeWidth);
-  }, [pathname]);
 
   const searchingMb = () => {
     props.onClick();

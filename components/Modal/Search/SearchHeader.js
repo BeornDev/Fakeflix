@@ -1,5 +1,5 @@
 import { useContext, useRef, useState } from "react";
-import MoviesContext from "../../../store/movies-context";
+import MediaContext from "../../../store/media-context";
 import styled from "styled-components";
 
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
@@ -77,7 +77,7 @@ const SearchHeaderDiv = styled.div`
 `;
 
 export default function SearchHeader(props) {
-  const moviesCtx = useContext(MoviesContext);
+  const moviesCtx = useContext(MediaContext);
   const searchRef = useRef();
   const changeSearchInput = () => {
     props.onSearchHandler(searchRef.current.value);

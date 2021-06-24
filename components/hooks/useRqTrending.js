@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import MoviesContext from "../../store/movies-context";
+import MoviesContext from "../../store/media-context";
 import axios from "axios";
 
 const useRqTrending = (media_type) => {
