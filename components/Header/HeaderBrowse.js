@@ -55,9 +55,15 @@ const HeaderBroseDiv = styled.li`
     transform: translateX(50%);
   }
 
-  @media (min-width: 480px) {
+  @media (min-width: 768px) {
     display: block;
     position: relative;
+  }
+  @media (min-width: 992px) {
+    display: none;
+    &.showBrowse {
+      display: none;
+    }
   }
 `;
 

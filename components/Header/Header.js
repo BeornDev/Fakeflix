@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect, useState, useContext } from "react";
+import { useState, useContext } from "react";
 import MoviesContext from "../../store/media-context";
 
 //Components
@@ -7,7 +7,6 @@ import HeaderArrow from "./HeaderArrow";
 import HeaderIcons from "./HeaderIcons";
 import HeaderLinks from "./HeaderLinks";
 
-import { CSSTransition } from "react-transition-group";
 import styled from "styled-components";
 
 // Styled Components
@@ -20,26 +19,43 @@ const HeaderDiv = styled.div`
   width: 100%;
   height: 80px;
   display: grid;
-  grid-template-columns: 80px auto 80px;
+  grid-template-columns: 60px auto 80px;
   grid-template-rows: 40px 40px;
   grid-template-areas:
     "A B C"
     "E E E";
   transition: 1s all;
+  padding: 0 2vw;
+  /* align-content: center; */
 
   &.scrolled {
     transform: translateY(-40px);
     background-color: rgba(0, 0, 0, 0.7);
   }
+  &.scroll-with-menu {
+    background-color: rgba(0, 0, 0, 0.7);
+    transform: translateY(-40px);
+  }
   @media (min-width: 480px) {
-    grid-template-columns: 80px auto 120px;
-    align-content: center;
-    height: 60px;
-    grid-template-rows: 40px;
-    grid-template-areas: "A E C";
+    grid-template-columns: 120px auto 100px;
+    /* align-content: center; */
+    /* height: 80px; */
+    /* grid-template-rows: 40px; */
+    grid-template-rows: 50px 50px;
+    height: 100px;
+    grid-template-areas:
+      "A B C"
+      "A E E";
 
     &.scrolled {
+      transform: translateY(-50px);
+    }
+    &.scroll-with-menu {
+      grid-template-areas: "A B C";
+      height: 50px;
       transform: translateY(0);
+      /* transform: translateY(-50px); */
+      /* height: 50px; */
     }
   }
 
@@ -48,27 +64,31 @@ const HeaderDiv = styled.div`
 `;
 
 export default function Header(props) {
+  //TODO: falta modal search wn screen
   const moviesCtx = useContext(MoviesContext);
-  const [showSearch, setshowSearch] = useState(false);
 
   console.log("Header");
   const router = useRouter();
   const { pathname } = router;
 
-  const searchingMb = () => {
-    props.onClick();
-  };
-  const searchingWS = () => {
-    setshowSearch((prevState) => !prevState);
-    console.log(showSearch);
-  };
-
   const routeExactPage = moviesCtx.links.find((l) => l.route === pathname).name;
 
   //TODO: Miss 'active' functionality
+
+  const leaveLinksMenu = moviesCtx.scrolling && pathname === "/";
+
   return (
-    <HeaderDiv className={moviesCtx.scrolling && "scrolled"}>
-      <HeaderArrow pathname={pathname} routeExactPage={routeExactPage} />
+    <HeaderDiv
+      className={
+        leaveLinksMenu ? "scroll-with-menu" : moviesCtx.scrolling && "scrolled"
+      }
+    >
+      {moviesCtx.scrolling && pathname === "/"}
+      <HeaderArrow
+        leaveLinksMenu={leaveLinksMenu}
+        pathname={pathname}
+        routeExactPage={routeExactPage}
+      />
       <HeaderLinks pathname={pathname} routeExactPage={routeExactPage} />
       <HeaderIcons />
     </HeaderDiv>

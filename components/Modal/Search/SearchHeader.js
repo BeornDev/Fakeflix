@@ -15,11 +15,6 @@ const SearchHeaderDiv = styled.div`
   grid-template-areas:
     "A B C"
     "E E E";
-  //TODO: Pendiente ajuste fixed
-
-  /* &.scrolling {
-  position: fixed;
-} */
 
   .arrowSearch {
     grid-area: A;

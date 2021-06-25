@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
+//Material icons
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import AddIcon from "@material-ui/icons/Add";
 import ClearOutlinedIcon from "@material-ui/icons/ClearOutlined";
@@ -13,79 +14,86 @@ const ItemCarouselDiv = styled.li`
   height: 100%;
   width: 100%;
   display: flex;
-  justify-content: center;
   align-items: flex-end;
+  background: url(${(props) => props.poster}) center/cover;
+  border-radius: 5px;
+  overflow: hidden;
 
-  &:hover .image-item-carousel {
-    /* height: 130%; */
-  }
-
-  &:hover .carousel-btns {
+  .carousel-hided-content {
+    background-color: red;
     display: flex;
-  }
-  .image-item-carousel {
-    border-radius: 10px;
-    position: absolute;
-    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 40%;
     width: 100%;
-    transition: 0.5s all;
-    background-position: center;
-    background-size: cover;
-    background-image: url("https://images-na.ssl-images-amazon.com/images/I/71OB1IywjLL._AC_SY679_.jpg");
-    z-index: 5;
+    background-color: rgba(0, 0, 0, 0.5);
+    gap: 5px;
+    transform: translateY(100%);
+    transition: 1s all;
   }
 
+  &:hover .carousel-hided-content {
+    transform: translateY(0);
+  }
+
+  .casorusel-vote-genres {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    font-weight: bold;
+  }
   .genres-item {
-    color: #fff;
-    position: relative;
-    z-index: 5;
-    background-color: rgba(0, 0, 0, 0.5);
+    margin: 0;
+    font-size: 0.8rem;
   }
 
   .carousel-btns {
-    display: none;
-    pointer-events: none;
-    width: 100%;
-    /* height: 20%; */
-
-    position: relative;
-    z-index: 7;
-
-    justify-content: space-evenly;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
   }
+
   .carousel-btns > * {
-    font-size: 25px;
+    font-size: 22px;
     border-radius: 50%;
     border: solid white 2px;
   }
 
   @media (min-width: 768px) {
-  }
-  @media (min-width: 992px) {
-  }
-  @media (min-width: 1200px) {
+    background: url(${(props) => props.backdrop}) center/cover;
   }
 `;
 
 export default function imageCarousel(props) {
+  const { poster_path, backdrop_path } = props.media;
+  const poster =
+    poster_path == null
+      ? `https://wallpapercave.com/wp/wp1935890.jpg`
+      : `https://image.tmdb.org/t/p/w300${poster_path}`;
+  const backdrop =
+    backdrop_path == null
+      ? `https://wallpapercave.com/wp/wp1935890.jpg`
+      : `https://image.tmdb.org/t/p/w500${backdrop_path}`;
+
   return (
-    <ItemCarouselDiv>
-      <div
-        onClick={() => props.onHandlerClick()}
-        style={{ backgroundImage: `url('${props.bgMediaPoster}')` }}
-        className="image-item-carousel"
-      />
-      <div className="carousel-btns">
-        <PlayArrowIcon />
-        <ThumbUpAltOutlinedIcon />
-        <ThumbDownAltOutlinedIcon />
-        <ClearOutlinedIcon />
-        <AddIcon />
-        <ExpandMoreIcon />
+    <ItemCarouselDiv poster={poster} backdrop={backdrop}>
+      <div className="carousel-hided-content">
+        <div className="casorusel-vote-genres">
+          <p className="genres-item">{props.genres}</p>
+          <p className="genres-item">{props.media.vote_average}</p>
+        </div>
+        <div className="carousel-btns">
+          <PlayArrowIcon onClick={() => console.log("play")} />
+          <ThumbUpAltOutlinedIcon onClick={() => console.log("like")} />
+          <ThumbDownAltOutlinedIcon onClick={() => console.log("dislike")} />
+          <ClearOutlinedIcon
+            onClick={() => console.log("delete from my list")}
+          />
+          <AddIcon onClick={() => console.log("add to my list")} />
+          <ExpandMoreIcon onClick={() => console.log("info", props.media)} />
+        </div>
       </div>
-      <p className="genres-item">{props.genres}</p>
     </ItemCarouselDiv>
   );
 }

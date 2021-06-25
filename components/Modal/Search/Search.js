@@ -37,6 +37,9 @@ const SearchModalDiv = styled.div`
     padding-left: 10px;
     font-size: 1.2rem;
   }
+  @media (min-width: 768px) {
+    display: none;
+  }
 `;
 
 export default function SearchModal(props) {
