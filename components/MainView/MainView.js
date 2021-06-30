@@ -1,4 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext, useState } from "react";
+import MediaContext from "../../store/media-context";
+import axios from "axios";
 
 //Components
 import Loader from "../../Layout/Loader";
@@ -109,16 +111,27 @@ const MainViewDiv = styled.div`
 
 export default function MainView(props) {
   console.log("MainView Renderd");
-  useEffect(() => {
-    console.log("once");
-  }, []);
+  const { genresMedia, populateGenres } = useContext(MediaContext);
   const { media, error } = useRequestMedia({
     media_type: props.media_type,
     list_type: "trending",
     time_window: "day",
   });
 
-  if (media !== null && props.genres) {
+  useEffect(() => {
+    if (genresMedia.length === 0) {
+      axios
+        .get(
+          `https://api.themoviedb.org/3/genre/movie/list?api_key=a737035cefb22acd96f01ffdcf8f4f7b`
+        )
+        .then((res) => {
+          populateGenres(res.data.genres);
+        })
+        .catch((err) => console.log(err.mesage));
+    }
+  }, []);
+
+  if (media && genresMedia) {
     const poster =
       media[0].poster_path == null
         ? `https://images-na.ssl-images-amazon.com/images/I/61ljrN7zmoL._AC_SL1024_.jpg`
@@ -129,7 +142,7 @@ export default function MainView(props) {
         : `https://image.tmdb.org/t/p/w1280${media[0]?.backdrop_path}`;
 
     const genresText = media[0].genre_ids
-      .map((g) => props.genres.find((gRq) => gRq.id === g).name)
+      .map((g) => genresMedia.find((gRq) => gRq.id === g)?.name)
       .join(" - ");
 
     return (

@@ -4,17 +4,28 @@ import React from "react";
 import MainView from "../../components/MainView/MainView";
 import CarouselFactory from "../../components/Carousel/CarouselFactory";
 
+//Rendering Carousels
 const carouselList = [
   {
     media_type: "movie",
     list_type: "upcoming",
     title: "Upcoming",
   },
-  // {
-  //   media_type: "movie",
-  //   list_type: "popular",
-  //   title: "Popular",
-  // },
+  {
+    media_type: "movie",
+    list_type: "popular",
+    title: "Popular",
+  },
+  {
+    media_type: "movie",
+    list_type: "top_rated",
+    title: "Top Rated",
+  },
+  {
+    media_type: "movie",
+    list_type: "now_playing",
+    title: "Now Playing",
+  },
 ];
 
 export default function index() {

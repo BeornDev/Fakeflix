@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import helper from "../Helper/helper";
 
 //Material icons
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
@@ -65,8 +64,6 @@ const HeaderBroseDiv = styled.li`
 `;
 
 export default function HeaderBrowse(props) {
-  helper();
-  //Quedo en el ultimo compoennte de la cadena ya qyue hace que se renderice 2 veces mas.
   // console.log("Header Browse");
   return (
     <HeaderBroseDiv className={props.pathname !== "/" && "showBrowse"}>

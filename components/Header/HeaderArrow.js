@@ -26,7 +26,7 @@ const HeaderArrowDiv = styled.div`
     }
   }
 `;
-//TODO: como puedo hacer el scroll del menu en home sin usar crear una clase?
+//TODO: como implmentar las imagenes desde mi directorio?
 const HeaderLogoDiv = styled.div`
   height: ${(props) => (props.pathname === "/" ? "100%" : "50%")};
   background: url("https://i.ibb.co/cy5Nv1p/F-netflix.png") center/contain

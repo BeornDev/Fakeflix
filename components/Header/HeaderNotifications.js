@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import Link from "next/link";
-import useHttpRequest from "../hooks/useHttpRquest";
 import useRequestMedia from "../hooks/useRequestMedia";
 import Loader from "../../Layout/Loader";
 

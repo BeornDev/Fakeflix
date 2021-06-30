@@ -1,7 +1,7 @@
 import React from "react";
 
 import styled from "styled-components";
-import { useContext, useRef, useEffect, useState, useCallback } from "react";
+import { useContext, useRef, useState } from "react";
 import MediaContext from "../../store/media-context";
 
 import ItemCarousel from "./ItemCarousel";
@@ -49,7 +49,7 @@ const CarouselDiv = styled.div`
     position: absolute;
     bottom: -2%;
     height: 90%;
-    width: 60px;
+    width: 50px;
     z-index: 10;
     /* background-color: rgba(0, 0, 0, 0.3); */
     display: none;
@@ -84,7 +84,7 @@ const CarouselDiv = styled.div`
 `;
 
 const Carousel = (props) => {
-  const mediaCtx = useContext(MediaContext);
+  const { genresMedia } = useContext(MediaContext);
   const [showLeftArrow, setshowLeftArrow] = useState(false);
   const listRef = useRef();
 
@@ -116,17 +116,6 @@ const Carousel = (props) => {
     }
   };
 
-  const genresByText = (genres_ids, media_type) => {
-    const genresArray =
-      media_type === "tv" ? mediaCtx.genresTv : mediaCtx.genresMovie;
-    return genres_ids
-      .map(
-        (genreMedia) =>
-          genresArray?.find((gText) => gText.id === genreMedia)?.name
-      )
-      .join(" - ");
-  };
-
   return (
     <CarouselDiv>
       <div onClick={() => console.log(props.genres)} className="title-carousel">
@@ -145,7 +134,10 @@ const Carousel = (props) => {
       <ul ref={listRef} className="content-carousel">
         {props.mediaReceived?.map((m) => (
           <ItemCarousel
-            genres={genresByText(m.genre_ids.slice(0, 2), props.mediaType)}
+            genres={m.genre_ids
+              .slice(0, 2)
+              .map((g) => genresMedia.find((gRq) => gRq.id === g)?.name)
+              .join(" - ")}
             key={m.id}
             media={m}
           />
