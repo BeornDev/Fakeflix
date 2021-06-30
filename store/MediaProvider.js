@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import useRqTrending from "../components/hooks/useRqTrending";
 
 import MoviesContext from "./media-context";
 

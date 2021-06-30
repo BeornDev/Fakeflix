@@ -57,6 +57,26 @@ const FooterDiv = styled.div`
   .leyend {
     font-size: 0.7rem;
   }
+
+  @media (min-width: 768px) {
+    padding: 1vh 5vh;
+    .socials {
+      width: 20%;
+    }
+    .singularLink {
+      width: 25%;
+      margin-bottom: 1rem;
+    }
+  }
+  @media (min-width: 992px) {
+    padding: 1vh 23vh;
+    .socials {
+      width: 25%;
+    }
+  }
+  @media (min-width: 1200px) {
+    padding: 1vh 30vh;
+  }
 `;
 
 //TODO: mismo problema que con el icono de los botones del main. Averiguar como pasar un HTML

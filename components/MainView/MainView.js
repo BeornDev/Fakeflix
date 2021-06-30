@@ -1,24 +1,27 @@
-import useRqTrending from "../hooks/useRqTrending";
+import React, { useEffect } from "react";
 
-import React, { useContext } from "react";
-import MediaContext from "../../store/media-context";
-
+//Components
 import Loader from "../../Layout/Loader";
 import Button from "../../Layout/Btn";
 
 import styled from "styled-components";
 
+//Material icons
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 
+import useRequestMedia from "../hooks/useRequestMedia";
+
 const MainViewDiv = styled.div`
-  /* overflow: hidden; */
   display: flex;
   align-items: flex-end;
   justify-content: center;
   height: 80vh;
   position: relative;
-  background: url(${(props) => props.poster}) center/cover;
+  background: linear-gradient(rgba(255, 255, 255, 0) 60%, #1d1d1d),
+    url(${(props) => props.poster});
+  background-position: center;
+  background-size: cover;
   text-shadow: 1px 1px 2px rgb(0 0 0 / 80%);
   color: #fff;
   margin-bottom: 2vw;
@@ -30,8 +33,6 @@ const MainViewDiv = styled.div`
   }
 
   .details {
-    /* height: 33%; */
-    /* width: 50%; */
     display: flex;
     flex-direction: column;
   }
@@ -52,7 +53,6 @@ const MainViewDiv = styled.div`
     align-items: center;
     justify-content: center;
     gap: 10px;
-    /* background-color: #fff; */
   }
   .infoBtn {
     background-color: rgba(255, 255, 255, 0.3);
@@ -62,10 +62,10 @@ const MainViewDiv = styled.div`
   .details-screen {
     display: none;
     padding-left: 2vw;
+    height: 55%;
   }
   .overview {
     width: 40%;
-    font-size: 1.3rem;
   }
 
   .containerBtns {
@@ -77,8 +77,14 @@ const MainViewDiv = styled.div`
   }
 
   @media (min-width: 768px) {
-    background: url(${(props) => props.backdrop}) center/cover;
+    background: linear-gradient(rgba(255, 255, 255, 0) 60%, #1d1d1d),
+      url(${(props) => props.backdrop});
+    background-position: center;
+    background-size: cover;
     justify-content: flex-start;
+
+    margin-bottom: -12vw;
+
     .containerBtns,
     .genres {
       display: none;
@@ -86,59 +92,76 @@ const MainViewDiv = styled.div`
 
     .details-screen {
       display: block;
-      height: 40%;
     }
   }
   @media (min-width: 992px) {
+    height: 90vh;
+    .overview {
+      font-size: 1.2rem;
+    }
   }
   @media (min-width: 1200px) {
+    height: 100vh;
+    .overview {
+    }
   }
 `;
 
 export default function MainView(props) {
-  const [mediaRq, genresRq] = useRqTrending(props.seccionType);
-  const mediaCtx = useContext(MediaContext);
+  console.log("MainView Renderd");
+  useEffect(() => {
+    console.log("once");
+  }, []);
+  const { media, error } = useRequestMedia({
+    media_type: props.media_type,
+    list_type: "trending",
+    time_window: "day",
+  });
 
-  const poster =
-    mediaRq[0]?.poster_path == null
-      ? `https://wallpapercave.com/wp/wp1935890.jpg`
-      : `https://image.tmdb.org/t/p/w1280${mediaRq[0]?.poster_path}`;
-  const backdrop =
-    mediaRq[0]?.poster_path == null
-      ? `https://wallpapercave.com/wp/wp1935890.jpg`
-      : `https://image.tmdb.org/t/p/w1280${mediaRq[0]?.backdrop_path}`;
+  if (media !== null && props.genres) {
+    const poster =
+      media[0].poster_path == null
+        ? `https://images-na.ssl-images-amazon.com/images/I/61ljrN7zmoL._AC_SL1024_.jpg`
+        : `https://image.tmdb.org/t/p/w1280${media[0]?.poster_path}`;
+    const backdrop =
+      media[0].backdrop_path == null
+        ? `https://wallpapercave.com/wp/wp1935890.jpg`
+        : `https://image.tmdb.org/t/p/w1280${media[0]?.backdrop_path}`;
 
-  const genresText = mediaRq[0]?.genre_ids
-    .map((g) => genresRq.find((gRq) => gRq.id === g)?.name)
-    .join(" - ");
+    const genresText = media[0].genre_ids
+      .map((g) => props.genres.find((gRq) => gRq.id === g).name)
+      .join(" - ");
 
-  return mediaCtx.isLoading ? (
+    return (
+      <MainViewDiv poster={poster} backdrop={backdrop}>
+        <div className="details">
+          <p className="genres">{genresText}</p>
+          <div className="containerBtns">
+            <Button btnType="add" />
+            <Button btnType="play" />
+            <Button btnType="info" />
+          </div>
+        </div>
+        <div className="details-screen">
+          <p className="overview">{media[0]?.overview}</p>
+          <div className="containerBtns-mainview">
+            <button onClick={() => console.log("play")} className="playBtn">
+              <PlayArrowIcon />
+              Play
+            </button>
+            <button onClick={() => console.log(mediaRq[0])} className="infoBtn">
+              <InfoOutlinedIcon />
+              More Info
+            </button>
+          </div>
+        </div>
+      </MainViewDiv>
+    );
+  }
+
+  return (
     <MainViewDiv style={{ alignItems: "center" }}>
       <Loader />
-    </MainViewDiv>
-  ) : (
-    <MainViewDiv poster={poster} backdrop={backdrop}>
-      <div className="details">
-        <p className="genres">{genresText}</p>
-        <div className="containerBtns">
-          <Button btnType="add" />
-          <Button btnType="play" />
-          <Button btnType="info" />
-        </div>
-      </div>
-      <div className="details-screen">
-        <p className="overview">{mediaRq[0]?.overview}</p>
-        <div className="containerBtns-mainview">
-          <button onClick={() => console.log("play")} className="playBtn">
-            <PlayArrowIcon />
-            Play
-          </button>
-          <button onClick={() => console.log(mediaRq[0])} className="infoBtn">
-            <InfoOutlinedIcon />
-            More Info
-          </button>
-        </div>
-      </div>
     </MainViewDiv>
   );
 }

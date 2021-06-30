@@ -1,96 +1,97 @@
 import { useRouter } from "next/router";
-import { useState, useContext } from "react";
-import MoviesContext from "../../store/media-context";
+import React, { useEffect, useState } from "react";
+import ModalSearch from "../Modal/Search/ModalSearch";
+import { SearchProvider } from "../../store/search-context";
 
 //Components
 import HeaderArrow from "./HeaderArrow";
 import HeaderIcons from "./HeaderIcons";
 import HeaderLinks from "./HeaderLinks";
 
+//styles
 import styled from "styled-components";
 
 // Styled Components
 const HeaderDiv = styled.div`
   position: fixed;
-  z-index: 10; //Always showing
+  z-index: 10;
   top: 0;
   right: 0;
   color: #fff;
   width: 100%;
-  height: 80px;
+  height: 100px;
   display: grid;
-  grid-template-columns: 60px auto 80px;
-  grid-template-rows: 40px 40px;
+  grid-template-columns: 80px auto 80px;
+  grid-template-rows: 50px 50px;
   grid-template-areas:
     "A B C"
     "E E E";
   transition: 1s all;
-  padding: 0 2vw;
-  /* align-content: center; */
+  transform: translateY(${(props) => (props.scrolled ? "-50%" : 0)});
+  background: ${(props) =>
+    props.scrolled
+      ? "rgba(0, 0, 0, 0.7)"
+      : "linear-gradient(black, transparent)"};
 
-  &.scrolled {
-    transform: translateY(-40px);
-    background-color: rgba(0, 0, 0, 0.7);
-  }
-  &.scroll-with-menu {
-    background-color: rgba(0, 0, 0, 0.7);
-    transform: translateY(-40px);
-  }
-  @media (min-width: 480px) {
-    grid-template-columns: 120px auto 100px;
-    /* align-content: center; */
-    /* height: 80px; */
-    /* grid-template-rows: 40px; */
-    grid-template-rows: 50px 50px;
-    height: 100px;
-    grid-template-areas:
-      "A B C"
-      "A E E";
+  @media (min-width: 768px) {
+    grid-template-columns: 120px auto 40vw;
+    grid-template-areas: ${(props) =>
+      props.pathname === "/"
+        ? `"A B C"
+        "E E E"`
+        : `"A B C"
+      "A E E"`};
 
-    &.scrolled {
-      transform: translateY(-50px);
-    }
     &.scroll-with-menu {
-      grid-template-areas: "A B C";
       height: 50px;
+      grid-template-rows: 50px;
       transform: translateY(0);
-      /* transform: translateY(-50px); */
-      /* height: 50px; */
     }
-  }
-
-  @media (min-width: 992px) {
   }
 `;
 
-export default function Header(props) {
+const linksHeader = [
+  { name: "Home", route: "/", class: "home" },
+  { name: "TV Shows", route: "/tvshows", class: "tvshows" },
+  { name: "Movies", route: "/movies", class: "movies" },
+  { name: "New & Popular", route: "/NewPopular", class: "newpopular" },
+  { name: "My List", route: "/MyList", class: "mylist" },
+];
+
+export default function Header() {
+  // console.log("Header");
   //TODO: falta modal search wn screen
-  const moviesCtx = useContext(MoviesContext);
+  //TODO: Miss 'active' functionality on links
+  const [scrolled, setScrolled] = useState(false);
+  const { pathname } = useRouter();
+  const routeExactPage = linksHeader.find((l) => l.route === pathname).name;
+  const leaveLinksMenu = scrolled && pathname === "/";
 
-  console.log("Header");
-  const router = useRouter();
-  const { pathname } = router;
-
-  const routeExactPage = moviesCtx.links.find((l) => l.route === pathname).name;
-
-  //TODO: Miss 'active' functionality
-
-  const leaveLinksMenu = moviesCtx.scrolling && pathname === "/";
+  useEffect(() => {
+    const onScroll = (e) => {
+      setScrolled(e.target.documentElement.scrollTop > 80);
+    };
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <HeaderDiv
-      className={
-        leaveLinksMenu ? "scroll-with-menu" : moviesCtx.scrolling && "scrolled"
-      }
-    >
-      {moviesCtx.scrolling && pathname === "/"}
-      <HeaderArrow
-        leaveLinksMenu={leaveLinksMenu}
+    <SearchProvider>
+      <ModalSearch title="Top Searches" />
+      <HeaderDiv
+        scrolled={scrolled}
+        scrolledHome={leaveLinksMenu}
         pathname={pathname}
-        routeExactPage={routeExactPage}
-      />
-      <HeaderLinks pathname={pathname} routeExactPage={routeExactPage} />
-      <HeaderIcons />
-    </HeaderDiv>
+        className={leaveLinksMenu && "scroll-with-menu"}
+      >
+        <HeaderArrow pathname={pathname} routeExactPage={routeExactPage} />
+        <HeaderLinks
+          pathname={pathname}
+          routeExactPage={routeExactPage}
+          linksHeader={linksHeader}
+        />
+        <HeaderIcons />
+      </HeaderDiv>
+    </SearchProvider>
   );
 }

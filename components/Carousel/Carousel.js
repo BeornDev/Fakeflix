@@ -1,13 +1,14 @@
-import useHttpRquest from "../hooks/useHttpRquest";
+import React from "react";
+
 import styled from "styled-components";
-import { useContext, useRef, useEffect, useState } from "react";
+import { useContext, useRef, useEffect, useState, useCallback } from "react";
 import MediaContext from "../../store/media-context";
 
 import ItemCarousel from "./ItemCarousel";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 
-const VerticalCarouselDiv = styled.div`
+const CarouselDiv = styled.div`
   color: #fff;
   height: 30vh;
   padding: 0 2vw;
@@ -82,8 +83,7 @@ const VerticalCarouselDiv = styled.div`
   }
 `;
 
-export default function Carousel(props) {
-  const mediaReceived = useHttpRquest(props.mediaType, props.listType);
+const Carousel = (props) => {
   const mediaCtx = useContext(MediaContext);
   const [showLeftArrow, setshowLeftArrow] = useState(false);
   const listRef = useRef();
@@ -91,23 +91,14 @@ export default function Carousel(props) {
   //TODO: minimizar logica.. del movimiento del carousel
 
   const moveCarousel = (dir) => {
-    setshowLeftArrow(listRef.current.scrollLeft !== 0);
-    const { scrollLeft, scrollWidth } = listRef.current ?? listRef.current;
-
-    //Logica del movimiento del carousel
-    const carouselParts = mediaReceived.length / mediaCtx.renderItems;
-    const stepOnPixels = scrollWidth / carouselParts;
-
-    console.log(
-      scrollLeft,
-      scrollWidth,
-      mediaReceived.length,
-      mediaCtx.renderItems,
-      scrollWidth
-    );
+    const placeOnCarousel = listRef.current.scrollLeft;
+    const widthCarousel = listRef.current.scrollWidth;
+    const stepsOnCarousel =
+      listRef.current.scrollWidth /
+      (listRef.current.scrollWidth / window?.innerWidth);
     if (dir === "right") {
-      if (scrollLeft + stepOnPixels < scrollWidth) {
-        listRef.current.scrollLeft = scrollLeft + stepOnPixels;
+      if (placeOnCarousel + stepsOnCarousel < widthCarousel) {
+        listRef.current.scrollLeft = placeOnCarousel + stepsOnCarousel;
         setshowLeftArrow(true);
       } else {
         listRef.current.scrollLeft = 0;
@@ -115,8 +106,8 @@ export default function Carousel(props) {
       }
     }
     if (dir === "left") {
-      if (scrollLeft - stepOnPixels > 0) {
-        listRef.current.scrollLeft = scrollLeft - stepOnPixels;
+      if (placeOnCarousel - stepsOnCarousel > 0) {
+        listRef.current.scrollLeft = placeOnCarousel - stepsOnCarousel;
         setshowLeftArrow(true);
       } else {
         listRef.current.scrollLeft = 0;
@@ -135,10 +126,10 @@ export default function Carousel(props) {
       )
       .join(" - ");
   };
-  //TODO: creo que es el problema de la API ya no tiene todos los generos que usa.
+
   return (
-    <VerticalCarouselDiv>
-      <div className="title-carousel">
+    <CarouselDiv>
+      <div onClick={() => console.log(props.genres)} className="title-carousel">
         {showLeftArrow && (
           <ChevronLeftIcon
             onClick={() => moveCarousel("left")}
@@ -152,7 +143,7 @@ export default function Carousel(props) {
         />
       </div>
       <ul ref={listRef} className="content-carousel">
-        {mediaReceived.map((m) => (
+        {props.mediaReceived?.map((m) => (
           <ItemCarousel
             genres={genresByText(m.genre_ids.slice(0, 2), props.mediaType)}
             key={m.id}
@@ -160,6 +151,8 @@ export default function Carousel(props) {
           />
         ))}
       </ul>
-    </VerticalCarouselDiv>
+    </CarouselDiv>
   );
-}
+};
+//TODO
+export default React.memo(Carousel);

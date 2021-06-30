@@ -69,7 +69,7 @@ export default function imageCarousel(props) {
   const { poster_path, backdrop_path } = props.media;
   const poster =
     poster_path == null
-      ? `https://wallpapercave.com/wp/wp1935890.jpg`
+      ? `https://images-na.ssl-images-amazon.com/images/I/61ljrN7zmoL._AC_SL1024_.jpg`
       : `https://image.tmdb.org/t/p/w300${poster_path}`;
   const backdrop =
     backdrop_path == null

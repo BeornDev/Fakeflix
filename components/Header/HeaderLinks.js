@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import MediaContext from "../../store/media-context";
+import React from "react";
 
 import Link from "next/link";
 import HeaderBrowse from "./HeaderBrowse";
@@ -38,17 +37,17 @@ const HeaderLinksList = styled.ul`
   }
 `;
 export default function HeaderLinks(props) {
-  const moviesCtx = useContext(MediaContext);
+  // console.log("Header Link render");
   return (
     <HeaderLinksList className={props.pathname !== "/" && "no-home-screen"}>
-      <HeaderBrowse pathname={props.pathname} />
+      <HeaderBrowse pathname={props.pathname} linksHeader={props.linksHeader} />
 
       {props.pathname !== "/" && (
         <li className="header-links__alter">
           <div>{props.routeExactPage}</div>
         </li>
       )}
-      {moviesCtx.links.map((l) => (
+      {props.linksHeader.map((l) => (
         <li
           key={l.class}
           className={`screen-list ${"header-links__" + l.class}`}
@@ -57,7 +56,7 @@ export default function HeaderLinks(props) {
         </li>
       ))}
       {props.pathname === "/" &&
-        moviesCtx.links.map((l, i) => {
+        props.linksHeader.map((l, i) => {
           if (i === 1 || i === 2 || i === 4) {
             return (
               <li

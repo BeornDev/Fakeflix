@@ -1,36 +1,32 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import helper from "../Helper/helper";
 
-import MoviesContext from "../../store/media-context";
-
+//Material icons
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 
 //styled
 const HeaderBroseDiv = styled.li`
   display: none;
-  /* position: relative; */
   color: #fff;
 
   &.showBrowse {
     display: block;
   }
-  .dropdown {
+
+  .list-dropfdown-browse {
     position: absolute;
     top: 150%;
     left: -15%;
-
-    display: flex;
     flex-direction: column;
     background-color: #000;
     justify-content: center;
     align-items: center;
     gap: 10px;
-
     height: 130px;
     width: 150px;
-
     font-size: 0.7rem;
     border-top: solid 3px #fff;
     font-weight: bold;
@@ -38,7 +34,7 @@ const HeaderBroseDiv = styled.li`
     display: none;
   }
 
-  &:hover .dropdown {
+  &:hover .list-dropfdown-browse {
     display: flex;
   }
 
@@ -61,6 +57,7 @@ const HeaderBroseDiv = styled.li`
   }
   @media (min-width: 992px) {
     display: none;
+
     &.showBrowse {
       display: none;
     }
@@ -68,15 +65,16 @@ const HeaderBroseDiv = styled.li`
 `;
 
 export default function HeaderBrowse(props) {
-  const moviesCtx = useContext(MoviesContext);
-
+  helper();
+  //Quedo en el ultimo compoennte de la cadena ya qyue hace que se renderice 2 veces mas.
+  // console.log("Header Browse");
   return (
     <HeaderBroseDiv className={props.pathname !== "/" && "showBrowse"}>
       <Link href="/">Browse</Link>
       <ArrowDropDownIcon style={{ fontSize: 30 }} className="arrowdown-icon" />
-      <div className="dropdown">
+      <div className="list-dropfdown-browse">
         <ArrowDropUpIcon style={{ fontSize: 30 }} className="arrowup-icon" />
-        {moviesCtx.links.map((l) => (
+        {props.linksHeader.map((l) => (
           <Link key={l.name} href={l.route}>
             {l.name}
           </Link>

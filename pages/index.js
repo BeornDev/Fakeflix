@@ -1,36 +1,26 @@
+import React, { useEffect, useContext, useState } from "react";
 import Head from "next/head";
-import { useContext, useEffect } from "react";
-import MediaContext from "../store/media-context";
-// import useRqTrending from "../components/hooks/useRqTrending";
-import { useGenres } from "../components/hooks/useHttpMedia";
-
-// import { useInView } from "react-intersection-observer";
 
 //Components
 import MainView from "../components/MainView/MainView";
-import Carousel from "../components/Carousel/Carousel";
-import React from "react";
+import CarouselFactory from "../components/Carousel/CarouselFactory";
 
-const Home = () => {
-  //TODO: esta logica la repito en las 3 paginas.. si?
-  const mediaCtx = useContext(MediaContext);
-  useGenres();
-  useEffect(() => {
-    window.innerWidth <= 768
-      ? mediaCtx.setRenderItems(3)
-      : window.innerWidth <= 992
-      ? mediaCtx.setRenderItems(4)
-      : window.innerWidth <= 1200
-      ? mediaCtx.setRenderItems(5)
-      : mediaCtx.setRenderItems(6);
+const carouselList = [
+  {
+    media_type: "movie",
+    list_type: "popular",
+    title: "Popular Movies",
+  },
+  {
+    media_type: "tv",
+    list_type: "popular",
+    title: "Popular Tv Shows",
+  },
+];
 
-    const changeScrollHandler = () => {
-      if (window.scrollY <= 80) {
-        mediaCtx.toggleScrolling(false);
-      } else mediaCtx.toggleScrolling(true);
-    };
-    window.addEventListener("scroll", changeScrollHandler);
-  }, []);
+const Home = (props) => {
+  console.log("Home Page Render");
+  // console.log(props.uniqueGenres);
 
   return (
     <React.Fragment>
@@ -45,21 +35,47 @@ const Home = () => {
           href="https://i.ibb.co/cy5Nv1p/F-netflix.png"
         />
       </Head>
-      <MainView seccionType="all" />
-      {/* <Numbered /> */}
-      <Carousel
-        mediaType="tv"
-        listType="top_rated"
-        title="Top Rated Tv Shows"
-      />
-      <Carousel
-        mediaType="movie"
-        listType="top_rated"
-        title="Top Rated Movies"
-      />
-
-      {/* <Horizontal /> */}
+      <MainView seccionType="all" genres={props.uniqueGenres} />
+      {carouselList.map(({ media_type, list_type, title }) => (
+        <CarouselFactory
+          key={title}
+          media_type={media_type}
+          list_type={list_type}
+          title={title}
+        />
+      ))}
     </React.Fragment>
   );
 };
 export default Home;
+
+export async function getStaticProps(context) {
+  console.log(process.env.customKey);
+  const resMovies = await fetch(
+    `https://api.themoviedb.org/3/genre/movie/list?api_key=a737035cefb22acd96f01ffdcf8f4f7b`
+  );
+  const dataMovies = await resMovies.json();
+  const genresMovie = dataMovies.genres;
+
+  const resTv = await fetch(
+    `https://api.themoviedb.org/3/genre/tv/list?api_key=a737035cefb22acd96f01ffdcf8f4f7b`
+  );
+  const dataTv = await resTv.json();
+  const genresTv = dataTv.genres;
+
+  if (!dataTv) {
+    return {
+      notFound: true,
+    };
+  }
+  const totalGenres = [...genresMovie, ...genresTv];
+  const uniqueGenres = Array.from(new Set(totalGenres.map((a) => a.id))).map(
+    (id) => {
+      return totalGenres.find((a) => a.id === id);
+    }
+  );
+
+  return {
+    props: { uniqueGenres }, // will be passed to the page component as props
+  };
+}
